@@ -25,31 +25,19 @@ public class AccountServiceImpl implements AccountService{
     }
 
     @Override
-    public Account findAccountById(Integer id) {
-        if(accountRepository.findById(id).isPresent()){
-            return accountRepository.findById(id).get();
-        }else{
-            throw new NullPointerException("Account Is Not Found!");
-        }
-    }
-
-    @Override
     public int updateBalance(Integer id,Integer amount) {
         Optional<Account> accountExist = accountRepository.findById(id);
-        if(accountExist.isPresent()){
+        if(!accountExist.isPresent()){
+            throw new NullPointerException("Account Is Not Found!");
+        } else {
             int amountExist = accountExist.get().getBalance() - amount;
             if(amountExist < 0){
                 return 0;
-            }else if(amountExist <= 50){
-                return  -1;
             }else{
                 accountExist.get().setBalance(amountExist);
-                System.out.println(accountExist.get().getBalance());
-                 accountRepository.save(accountExist.get());
-                 return 1;
+                accountRepository.save(accountExist.get());
+                return 1;
             }
-        } else {
-            throw new NullPointerException("Account Is Not Found!");
         }
     }
 }

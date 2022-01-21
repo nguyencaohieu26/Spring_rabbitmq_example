@@ -2,6 +2,7 @@ package com.example.order.service;
 
 import com.example.order.entity.OrderDetail;
 import com.example.order.repository.OrderDetailRepository;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

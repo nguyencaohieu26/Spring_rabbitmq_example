@@ -1,14 +1,21 @@
 package com.example.order.dto;
 
-import com.example.order.entity.OrderDetail;
-import java.time.LocalDateTime;
-import java.util.Set;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-public class OrderDTO {
+import java.io.Serializable;
+import java.time.LocalDateTime;
+
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+public class OrderDTO implements Serializable {
     private Integer id;
-    private String account_name;
-    private String isCheckOut;
+    private Integer account_id;
+    private boolean check_out;
     private int totalPrice;
     private LocalDateTime createdAt;
-    Set<OrderDetail> orderDetails;
 }

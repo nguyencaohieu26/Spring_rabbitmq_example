@@ -38,7 +38,7 @@ public class Order extends BaseEntity implements Serializable{
 
     //1 order have many order detail
     @OneToMany(mappedBy = "order",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
-//    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     Set<OrderDetail> orderDetails = new HashSet<>();
 
     //method count totalPrice

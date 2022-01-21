@@ -1,11 +1,11 @@
 package com.example.order.service;
 
 import com.example.order.entity.Product;
-
-import java.util.List;
+import com.example.order.specification.FilterField;
+import org.springframework.data.domain.Page;
 
 public interface ProductService {
-    List<Product> getListProduct();
+    Page<Product> getListProduct(FilterField filter);
     Product getProduct(Integer id);
     Product save(Product product);
 }

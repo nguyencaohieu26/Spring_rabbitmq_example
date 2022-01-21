@@ -2,6 +2,7 @@ package com.example.payment.controller;
 
 import com.example.payment.entity.Account;
 import com.example.payment.entity.Order;
+import com.example.payment.entity.PaymentSendResponse;
 import com.example.payment.queue.MessageConfig;
 import com.example.payment.service.AccountService;
 import org.apache.log4j.Logger;
@@ -35,10 +36,14 @@ public class PaymentController {
     }
 
     //update total price
-    public void updateTotal(Order order){
-        System.out.println(order.getTotalPrice());
-        int status =  accountService.updateBalance(order.getAccount_id(),order.getTotalPrice());
-        logger.info("Order Status: "+status);
-        template.convertAndSend(MessageConfig.ORDER_EXCHANGE,MessageConfig.PAYMENT_ROUTING_KEY,status);
+    public void updateTotal(PaymentSendResponse pay){
+        int status =  accountService.updateBalance(pay.getAccount_id(),pay.getTotalPrice());
+        if(status == 1){
+            pay.setCheck_out(true);
+        }else{
+            pay.setCheck_out(false);
+        }
+        System.out.println(pay.getId());
+        template.convertAndSend(MessageConfig.ORDER_EXCHANGE,MessageConfig.PAYMENT_ROUTING_KEY, pay);
     }
 }
