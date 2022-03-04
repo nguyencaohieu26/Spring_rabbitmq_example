@@ -7,6 +7,6 @@ public interface CartService {
     Cart addToCart(String access_token,CartItem cartItem);
     Cart updateCart(String access_token,CartItem cartItem);
     Cart findCart(String access_token);
-    void removeItem(String access_token,Integer productID);
+    void removeItem(String access_token,Long productID);
     void clear(String access_token);
 }

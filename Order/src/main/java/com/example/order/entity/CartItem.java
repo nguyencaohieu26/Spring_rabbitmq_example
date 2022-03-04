@@ -6,6 +6,7 @@ import lombok.*;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 @Getter
 @Setter
@@ -17,10 +18,11 @@ import java.io.Serializable;
 public class CartItem implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
+    @NotNull(message = "Product id is required")
     @Column(name = "product_id")
-    private Integer productID;
+    private Long productID;
 
     @NotNull(message = "Product name is required")
     private String productName;
@@ -28,8 +30,10 @@ public class CartItem implements Serializable {
     @NotNull(message = "Product image is required")
     private String thumbnail;
 
-    private int unitPrice;
+    @NotNull(message = "Price is required")
+    private BigDecimal unitPrice;
 
+    @NotNull(message = "Quantity is required")
     private int quantity;
 
     @ManyToOne

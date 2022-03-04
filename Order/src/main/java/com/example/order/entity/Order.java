@@ -8,6 +8,7 @@ import org.hibernate.annotations.Where;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -22,17 +23,17 @@ import java.util.Set;
 public class Order extends BaseEntity implements Serializable{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private Long id;
 
     @NotNull(message = "Customer ID is required")
-    @Column(name = "account_id")
-    private Integer account_id;
+    private Long accountID;
 
-    @Column(name = "check_out")
-    private boolean check_out = Boolean.FALSE;
+    private BigDecimal totalPrice;
 
-    @Column(name = "total_price")
-    private int totalPrice;
+    private String payment_status;
+    private String inventory_status;
+    private String message;
+    private String status;
 
     private boolean deleted = Boolean.FALSE;
 
@@ -40,13 +41,4 @@ public class Order extends BaseEntity implements Serializable{
     @OneToMany(mappedBy = "order",cascade = CascadeType.ALL,fetch = FetchType.LAZY)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     Set<OrderDetail> orderDetails = new HashSet<>();
-
-    //method count totalPrice
-    public void calculateTotalPrice(){
-        int total = 0;
-        for(OrderDetail od : this.orderDetails){
-            total += od.getUnitPrice()*od.getQuantity();
-        }
-        this.totalPrice = total;
-    }
 }

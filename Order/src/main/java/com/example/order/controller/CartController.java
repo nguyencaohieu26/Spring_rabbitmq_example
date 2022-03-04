@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
 @RestController
 @CrossOrigin("*")
 @RequestMapping("api/v1/cart")
@@ -16,38 +17,40 @@ public class CartController {
     @Autowired
     CartService cartService;
 
-    //add product to cart
+
     @RequestMapping(method = RequestMethod.POST,value = "/add")
-    public ResponseEntity<?> addToCard(@RequestParam String access_token,@RequestBody CartItem cartItem){
+    public ResponseEntity<?> addToCard(@RequestHeader("Access-Token") String access_token ,@RequestBody CartItem cartItem){
         return new ResponseEntity<>(new RestResponse.Success()
                 .addData(cartService.addToCart(access_token,cartItem))
                 .build(), HttpStatus.OK);
     }
-    //get list cart item
-    @RequestMapping(method = RequestMethod.GET,value = "/getListItem")
-    public ResponseEntity<?> getListItems(@RequestParam String access_token){
+
+
+    @RequestMapping(method = RequestMethod.GET,value = "/getCart")
+    public ResponseEntity<?> getListItems(@RequestHeader("Access-Token") String access_token){
         return new ResponseEntity<>(new RestResponse.Success()
                 .addData(cartService.findCart(access_token))
                 .build(),HttpStatus.OK);
     }
-    //update product in cart
-    @RequestMapping(method = RequestMethod.POST,value = "/update")
-    public ResponseEntity<?> updateCard(@RequestParam String access_token, @RequestBody CartItem cartItem){
+
+
+    @RequestMapping(method = RequestMethod.PUT,value = "/update")
+    public ResponseEntity<?> updateCard(@RequestHeader("Access-Token") String access_token, @RequestBody CartItem cartItem){
         return new ResponseEntity<>(new RestResponse.Success()
                 .addData(cartService.updateCart(access_token,cartItem)).build()
                 ,HttpStatus.OK);
     }
 
-    //remove cart item
-    @RequestMapping(method = RequestMethod.GET,value = "/removeCartItem/{id}")
-    public ResponseEntity<?> removeCartIem(@RequestParam String access_token,@PathVariable Integer id){
+
+    @RequestMapping(method = RequestMethod.PUT,value = "/removeCartItem/{id}")
+    public ResponseEntity<?> removeCartIem(@RequestHeader("Access-Token") String access_token,@PathVariable Long id){
         cartService.removeItem(access_token,id);
         return new ResponseEntity<>("OK",HttpStatus.OK);
     }
 
-    //remove cart
+
     @RequestMapping(method = RequestMethod.DELETE,value = "/delete")
-    public ResponseEntity<?> removeCart(@RequestParam String access_token){
+    public ResponseEntity<?> removeCart(@RequestHeader("Access-Token") String access_token){
         cartService.clear(access_token);
         return new ResponseEntity<>("OK", HttpStatus.OK);
     }

@@ -1,6 +1,9 @@
 package com.example.order.entity;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -13,12 +16,11 @@ import java.util.Objects;
 @Setter
 @Getter
 public class OrderDetailKey implements Serializable {
+    @Column(name = "order_id",nullable = false)
+    public Long orderID;
 
-    @Column(name ="order_id",nullable = false)
-    public Integer orderID;
-
-    @Column(name ="product_id",nullable = false)
-    public Integer productID;
+    @Column(name = "product_id",nullable = false)
+    public Long productID;
 
     @Override
     public boolean equals(Object o) {

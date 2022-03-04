@@ -26,7 +26,7 @@ public class BaseEntity {
     @LastModifiedDate
     @Column(name="update_at")
     private LocalDateTime updateAt;
-
-    @Column(name ="status")
-    private int status;
+//
+//    @Column(name ="status")
+//    private int status;
 }

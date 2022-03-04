@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -16,14 +17,6 @@ public class OrderDetail {
 
     @EmbeddedId
     private OrderDetailKey orderDetailKey;
-
-    //create relationship between product
-    @ManyToOne
-    @MapsId("productID")
-    @JoinColumn(name = "product_id")
-    @JsonIgnore
-    private Product product;
-
     //create relationship between order
     @ManyToOne
     @MapsId("orderID")
@@ -31,10 +24,12 @@ public class OrderDetail {
     @JsonIgnore
     private Order order;
 
+    @Column(name = "product_id",updatable = false,insertable = false)
+    private long productID;
+
     private int quantity;
 
-    @Column(name = "unit_price")
-    private int unitPrice;
+    private BigDecimal unitPrice;
 
     @Override
     public String toString() {

@@ -26,6 +26,4 @@ public abstract class BaseEntity {
     @Column(name = "update_at")
     private LocalDateTime updatedAt;
 
-    @Column(name ="status")
-    private int status;
 }
