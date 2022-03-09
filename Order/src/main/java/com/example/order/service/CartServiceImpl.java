@@ -87,6 +87,7 @@ public class CartServiceImpl implements CartService{
         return null;
     }
 
+    @Transactional
     @Override
     public void removeItem(String access_token, Long productID) {
         Cart cartExist = cartRepository.findCartAccess_token(access_token);
