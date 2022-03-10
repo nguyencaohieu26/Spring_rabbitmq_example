@@ -25,6 +25,11 @@ public class ProductController {
     @Autowired
     ProductService productService;
 
+    @RequestMapping(path = "hello", method = RequestMethod.GET)
+    public String Hello(){
+        return  "Hello";
+    }
+
     @RequestMapping(method = RequestMethod.GET,value = "/list")
     public ResponseEntity<?> getProducts(
             @RequestParam(name = "page",defaultValue = "1") int page,

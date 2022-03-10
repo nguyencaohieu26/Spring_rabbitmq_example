@@ -1,0 +1,100 @@
+version: '3.8'
+networks:
+  mynet:
+    driver: bridge
+services:
+  database-service:
+    container_name: microservice-database
+    image: mysql/mysql-server:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_HOST: '%'
+    ports:
+      - 3307:3306
+    networks:
+      - mynet
+    volumes:
+      - ./database:/docker-entrypoint-initdb.d
+
+#-------------------------------------------
+#  phpmyadmin:
+#    image: phpmyadmin/phpmyadmin
+#    container_name: pma
+#    links:
+#      - database-service
+#    environment:
+#      PMA_HOST: microservice-database
+#      PMA_PORT: 3306
+#      PMA_ARBITRARY: 1
+#    restart: always
+#    ports:
+#      - 3334:90
+
+#-------------------------------------------
+  order-service:
+    container_name: order-service
+    depends_on:
+      - database-service
+      - rabbitmq3
+    build: ./Order
+    volumes:
+      - ./Order:/usr/src/Order
+      - ~/m2:/root/m2
+    working_dir: /usr/src/Order
+    ports:
+      - 9981:8080
+    command: mvn clean spring-boot:run
+    environment:
+      - SPRING_RABBITMQ_HOST=rabbitmq
+    networks:
+      - mynet
+#-------------------------------------------
+  payment-service:
+    container_name: payment-service
+    depends_on:
+      - database-service
+      - rabbitmq3
+    build: ./Payment
+    volumes:
+      - ./Payment:/usr/src/Payment
+      - ~/m2:/root/m2
+    working_dir: /usr/src/Payment
+    ports:
+      - 9982:8080
+    command: mvn clean spring-boot:run
+    environment:
+      - SPRING_RABBITMQ_HOST=rabbitmq
+    networks:
+      - mynet
+#-------------------------------------------
+  inventory-service:
+    container_name: inventory-service
+    depends_on:
+      - database-service
+      - rabbitmq3
+    build: ./Inventory
+    volumes:
+      - ./Inventory:/usr/src/Inventory
+      - ~/m2:/root/m2
+    working_dir: /usr/src/Inventory
+    ports:
+      - 9983:8080
+    command: mvn clean spring-boot:run
+    environment:
+      - SPRING_RABBITMQ_HOST=rabbitmq
+    networks:
+      - mynet
+#-------------------------------------------
+  rabbitmq3:
+    container_name: "rabbitmq"
+    environment:
+      - RABBITMQ_DEFAULT_USER=guest
+      - RABBITMQ_DEFAULT_PASS=guest
+    image: rabbitmq:3.8-management-alpine
+    ports:
+      # AMQP protocol port
+      - '5672:5672'
+      # HTTP management UI
+      - '15672:15672'
+    networks:
+      - mynet

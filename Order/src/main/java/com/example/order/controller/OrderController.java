@@ -15,7 +15,10 @@ public class OrderController {
     @Autowired
     private OrderService orderService;
 
-
+    @RequestMapping(method = RequestMethod.GET,path = "test")
+    public String returnString(){
+        return  "HEllo";
+    }
     @RequestMapping(method = RequestMethod.POST,value = "/create")
     public ResponseEntity<?> createOrder(@RequestBody CartToOrderDTO cart){
         orderService.save(cart);
