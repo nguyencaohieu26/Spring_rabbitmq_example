@@ -26,7 +26,7 @@ public class Order extends BaseEntity implements Serializable{
     private Long id;
 
     @NotNull(message = "Customer ID is required")
-    private Long accountID;
+    private String accountID;
 
     private BigDecimal totalPrice;
 

@@ -20,11 +20,10 @@ public class TransactionHistory extends BaseEntity implements Serializable {
     private Long id;
 
     @NotNull(message = "Sender is required!")
-    private Long senderID;
+    private String senderID;
 
-    @Column(columnDefinition = "bigint default 1")
     @NotNull(message = "Receiver is required")
-    private  Long receiverID;
+    private  String receiverID;
 
     private Long orderID;
     private String paymentType;

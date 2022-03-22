@@ -12,7 +12,7 @@ public class WalletServiceImpl implements WalletService{
     WalletRepository walletRepository;
 
     @Override
-    public Wallet getWallet(long accountID) {
+    public Wallet getWallet(String accountID) {
         return walletRepository.findWalletsByAccountID(accountID);
     }
 }

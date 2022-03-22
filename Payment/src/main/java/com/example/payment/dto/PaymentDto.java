@@ -12,11 +12,11 @@ import java.io.Serializable;
 
 public class PaymentDto implements Serializable {
     private Long orderID;
-    private Long accountID;
+    private String accountID;
     private String paymentStatus;
     private String message;
 
-    public PaymentDto(long orderID,long accountID){
+    public PaymentDto(long orderID,String accountID){
         this.orderID = orderID;
         this.accountID = accountID;
     }

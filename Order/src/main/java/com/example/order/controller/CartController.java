@@ -18,40 +18,40 @@ public class CartController {
     CartService cartService;
 
 
-    @RequestMapping(method = RequestMethod.POST,value = "/add")
-    public ResponseEntity<?> addToCard(@RequestHeader("Access-Token") String access_token ,@RequestBody CartItem cartItem){
+    @RequestMapping(method = RequestMethod.POST,value = "/add/{userID}")
+    public ResponseEntity<?> addToCard(@PathVariable String userID ,@RequestBody CartItem cartItem){
         return new ResponseEntity<>(new RestResponse.Success()
-                .addData(cartService.addToCart(access_token,cartItem))
+                .addData(cartService.addToCart(userID,cartItem))
                 .build(), HttpStatus.OK);
     }
 
 
-    @RequestMapping(method = RequestMethod.GET,value = "/getCart")
-    public ResponseEntity<?> getListItems(@RequestHeader("Access-Token") String access_token){
+    @RequestMapping(method = RequestMethod.GET,value = "/getCart/{userID}")
+    public ResponseEntity<?> getListItems(@PathVariable String userID){
         return new ResponseEntity<>(new RestResponse.Success()
-                .addData(cartService.findCart(access_token))
+                .addData(cartService.findCart(userID))
                 .build(),HttpStatus.OK);
     }
 
 
-    @RequestMapping(method = RequestMethod.PUT,value = "/update")
-    public ResponseEntity<?> updateCard(@RequestHeader("Access-Token") String access_token, @RequestBody CartItem cartItem){
+    @RequestMapping(method = RequestMethod.PUT,value = "/update/{userID}")
+    public ResponseEntity<?> updateCard(@PathVariable String userID, @RequestBody CartItem cartItem){
         return new ResponseEntity<>(new RestResponse.Success()
-                .addData(cartService.updateCart(access_token,cartItem)).build()
+                .addData(cartService.updateCart(userID,cartItem)).build()
                 ,HttpStatus.OK);
     }
 
 
-    @RequestMapping(method = RequestMethod.PUT,value = "/removeCartItem/{id}")
-    public ResponseEntity<?> removeCartIem(@RequestHeader("Access-Token") String access_token,@PathVariable Long id){
-        cartService.removeItem(access_token,id);
+    @RequestMapping(method = RequestMethod.PUT,value = "/removeCartItem/{id}/{userID}")
+    public ResponseEntity<?> removeCartIem(@PathVariable String userID,@PathVariable Long id){
+        cartService.removeItem(userID,id);
         return new ResponseEntity<>("OK",HttpStatus.OK);
     }
 
 
-    @RequestMapping(method = RequestMethod.DELETE,value = "/delete")
-    public ResponseEntity<?> removeCart(@RequestHeader("Access-Token") String access_token){
-        cartService.clear(access_token);
+    @RequestMapping(method = RequestMethod.DELETE,value = "/delete/{userID}")
+    public ResponseEntity<?> removeCart(@PathVariable  String userID){
+        cartService.clear(userID);
         return new ResponseEntity<>("OK", HttpStatus.OK);
     }
 }

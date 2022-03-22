@@ -19,6 +19,7 @@ import java.util.stream.Collectors;
 @CrossOrigin("*")
 @RequestMapping("api/v1/categories")
 public class CategoryController {
+
     @Autowired
     CategoryService categoryService;
 

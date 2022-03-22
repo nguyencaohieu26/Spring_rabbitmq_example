@@ -48,10 +48,8 @@ public class OrderServiceImpl implements OrderService {
         if(cart == null){
             throw new NotFoundException("Cart is not found!");
         }
-        if(cart.getAccess_token().equals("nguyencaohieu")){
-            long userID = 1;
             Order order = Order.builder()
-                    .accountID(userID)
+                    .accountID(cart.getAccountID())
                     .totalPrice(cart.getTotalPrice())
                     .build();
             orderRepository.save(order);
@@ -77,7 +75,6 @@ public class OrderServiceImpl implements OrderService {
             }catch (Exception e){
                 throw new SystemException("Error occur!");
             }
-        }
     }
 
     @Override

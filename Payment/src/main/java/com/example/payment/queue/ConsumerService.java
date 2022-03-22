@@ -47,7 +47,7 @@ public class ConsumerService {
         TransactionHistory history = TransactionHistory.builder()
                 .paymentType(PaymentType.TRANSFER.name())
                 .senderID(orderDto.getAccountID())
-                .receiverID(1L)
+                .receiverID("admin")
                 .amount(orderDto.getTotalPrice())
                 .orderID(orderDto.getOrderID())
                 .build();
@@ -87,7 +87,7 @@ public class ConsumerService {
         TransactionHistory history = TransactionHistory.builder()
                 .amount(orderDto.getTotalPrice())
                 .senderID(orderDto.getAccountID())
-                .receiverID(1L)
+                .receiverID("admin")
                 .message("Refund for order "+orderDto.getOrderID())
                 .orderID(orderDto.getOrderID())
                 .paymentType(PaymentType.REFUNDED.name())
@@ -107,7 +107,7 @@ public class ConsumerService {
         }
     }
     private Wallet checkWallet(OrderDto orderDto){
-        if(orderDto.getAccountID() == 0){
+        if(orderDto.getAccountID() != null){
             orderDto.setOrderStatus(Status.OrderStatus.REJECT.name());
             orderDto.setMessage(Status.OrderMessage.NOT_FOUND_USER);
             orderDto.setPaymentStatus(Status.PaymentStatus.UNPAID.name());

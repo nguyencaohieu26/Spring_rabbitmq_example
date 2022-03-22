@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 import java.math.BigDecimal;
 import java.util.stream.Collectors;
@@ -25,10 +26,6 @@ public class ProductController {
     @Autowired
     ProductService productService;
 
-    @RequestMapping(path = "hello", method = RequestMethod.GET)
-    public String Hello(){
-        return  "Hello";
-    }
 
     @RequestMapping(method = RequestMethod.GET,value = "/list")
     public ResponseEntity<?> getProducts(

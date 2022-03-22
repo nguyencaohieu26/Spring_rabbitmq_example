@@ -17,13 +17,14 @@ import java.util.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Table(name = "carts")
 public class Cart implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @JsonIgnore
-    private String access_token;
+    private String accountID;
 
     private BigDecimal totalPrice;
 

@@ -23,11 +23,11 @@ public class CartServiceImpl implements CartService{
     CartItemRepository cartItemRepository;
 
     @Override
-    public Cart addToCart(String access_token, CartItem cartItem) {
+    public Cart addToCart(String userID, CartItem cartItem) {
         if(cartItem.getQuantity() <= 0){
             throw new SystemException("Quantity must be greater than 0");
         }
-        Cart cartExist = cartRepository.findCartAccess_token(access_token);
+        Cart cartExist = cartRepository.findCartByAccountID(userID);
         if(cartExist != null){
             Map<Long,CartItem> listCartItems = cartExist.getItems();
             if(listCartItems.containsKey(cartItem.getProductID())){
@@ -44,7 +44,7 @@ public class CartServiceImpl implements CartService{
         }
         Cart newCart = new Cart();
         cartRepository.save(newCart);
-        newCart.setAccess_token(access_token);
+        newCart.setAccountID(userID);
         HashMap<Long,CartItem> newCartItems = new HashMap<>();
         newCartItems.put(cartItem.getProductID(),cartItem);
         newCart.setItems(newCartItems);
@@ -54,8 +54,8 @@ public class CartServiceImpl implements CartService{
     }
 
     @Override
-    public Cart updateCart(String access_token, CartItem cartItem) {
-        Cart cartExist = cartRepository.findCartAccess_token(access_token);
+    public Cart updateCart(String userID, CartItem cartItem) {
+        Cart cartExist = cartRepository.findCartByAccountID(userID);
         if(cartExist == null){
             throw new NotFoundException("Cart is not found!");
         }
@@ -75,8 +75,8 @@ public class CartServiceImpl implements CartService{
     }
 
     @Override
-    public Cart findCart(String access_token) {
-        Cart cartExist = cartRepository.findCartAccess_token(access_token);
+    public Cart findCart(String userID) {
+        Cart cartExist = cartRepository.findCartByAccountID(userID);
         if(cartExist != null){
             for (Map.Entry<Long, CartItem> set : cartExist.getItems().entrySet()) {
                 // Printing all elements of a Map
@@ -89,8 +89,8 @@ public class CartServiceImpl implements CartService{
 
     @Transactional
     @Override
-    public void removeItem(String access_token, Long productID) {
-        Cart cartExist = cartRepository.findCartAccess_token(access_token);
+    public void removeItem(String userID, Long productID) {
+        Cart cartExist = cartRepository.findCartByAccountID(userID);
         if(cartExist == null){
             throw new NotFoundException("Cart is not found!");
         }
@@ -106,8 +106,8 @@ public class CartServiceImpl implements CartService{
     }
 
     @Override
-    public void clear(String access_token) {
-        Cart cartExist = cartRepository.findCartAccess_token(access_token);
+    public void clear(String userID) {
+        Cart cartExist = cartRepository.findCartByAccountID(userID);
         if(cartExist == null){
             throw new NotFoundException("Cart is not found!");
         }

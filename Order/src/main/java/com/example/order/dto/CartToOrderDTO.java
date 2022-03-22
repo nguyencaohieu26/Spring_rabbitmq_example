@@ -15,7 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CartToOrderDTO implements Serializable {
-    private String access_token;
+    private String accountID;
     private Long id;
     private List<CartItem> listCartItems;
     private BigDecimal totalPrice;

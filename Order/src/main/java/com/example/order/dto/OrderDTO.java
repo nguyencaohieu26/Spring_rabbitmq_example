@@ -17,7 +17,7 @@ import java.util.Set;
 @NoArgsConstructor
 public class OrderDTO implements Serializable {
     private long orderID;
-    private long accountID;
+    private String accountID;
     private BigDecimal totalPrice;
     private String paymentStatus;
     private String inventoryStatus;

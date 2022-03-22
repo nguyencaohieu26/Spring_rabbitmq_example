@@ -7,8 +7,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CartRepository extends JpaRepository<Cart, Long> {
-    @Query(
-            value = "SELECT * FROM Cart u WHERE u.access_token = ?1",
-            nativeQuery = true)
-    Cart findCartAccess_token(String access_token);
+    Cart findCartByAccountID(String accountID);
 }

@@ -85,6 +85,19 @@ services:
     networks:
       - mynet
 #-------------------------------------------
+  authentication-service:
+    container_name: authentication-service
+    build: ./Authentication
+    volumes:
+      - ./Authentication:/usr/src/Authentication
+      - ~/m2:/root/m2
+    working_dir: /usr/src/Authentication
+    ports:
+      - 9984:8080
+    command: mvn clean spring-boot:run
+    networks:
+      - mynet
+#-------------------------------------------
   rabbitmq3:
     container_name: "rabbitmq"
     environment:
@@ -98,3 +111,32 @@ services:
       - '15672:15672'
     networks:
       - mynet
+#--------------------------------------------
+  keycloak:
+    image: jboss/keycloak:4.8.3.Final
+    restart: on-failure
+    command:
+      - "-b"
+      - "0.0.0.0"
+      - "-Dkeycloak.migration.action=import"
+      - "-Dkeycloak.migration.provider=dir"
+      - "-Dkeycloak.migration.dir=/config/"
+      - "-Dkeycloak.migration.strategy=IGNORE_EXISTING"
+    volumes:
+      - ./config:/config/
+    environment:
+      - KEYCLOAK_USER=admin
+      - KEYCLOAK_PASSWORD=Pa55w0rd
+      - DB_VENDOR=MYSQL
+      - DB_USER=root
+      - DB_PASSWORD=root
+      - DB_ADDR=database-service
+      - DB_PORT=3306
+      - DB_DATABASE=db_keycloak
+    ports:
+      - 8888:8080
+    networks:
+      - mynet
+    depends_on:
+      - database-service
+#--------------------------------------------

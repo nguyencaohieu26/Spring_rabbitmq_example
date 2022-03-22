@@ -20,6 +20,6 @@ public class Wallet extends BaseEntity implements Serializable {
     private Long id;
 
     private BigDecimal balance;
-    private Long accountID;
+    private String accountID;
     private String name;
 }

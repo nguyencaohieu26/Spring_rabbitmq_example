@@ -16,7 +16,7 @@ public class WalletController {
     WalletService walletService;
 
     @RequestMapping(method = RequestMethod.GET,value = "/wallet")
-    public ResponseEntity<?> getWallet(@RequestParam(name = "accountID") long id){
+    public ResponseEntity<?> getWallet(@RequestParam(name = "accountID") String id){
         return new ResponseEntity<>(
                 new RestResponse.Success().addData(walletService.getWallet(id)).build()
                 , HttpStatus.OK);
